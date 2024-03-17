@@ -1,6 +1,14 @@
 *.exe
 *.so
+*.class
+*.lst
 
 .idea/
 .vscode/
 log/
+/example-common/target/surefire-reports/2024-03-15T13-01-59_123.dumpstream
+/example-provider/target/surefire-reports/2024-03-15T13-05-16_760.dumpstream
+/example-consumer/target/surefire-reports/2024-03-15T13-07-13_690.dumpstream
+/evan-rpc-easy/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+/example-provider/target/surefire-reports/com.evan.AppTest.txt
+/example-consumer/target/test-classes/com/evan/AppTest.class

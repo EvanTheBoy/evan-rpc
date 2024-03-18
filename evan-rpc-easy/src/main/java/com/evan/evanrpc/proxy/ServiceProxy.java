@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import static io.vertx.core.http.impl.HttpClientConnection.log;
+
 public class ServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -26,17 +28,16 @@ public class ServiceProxy implements InvocationHandler {
                 .build();
         try {
             byte[] bodyBytes = serializer.serialize(rpcRequest);
-            byte[] result;
             // 这里硬编码, 写死了, 后续可以优化
             try(HttpResponse httpResponse = HttpRequest.post("http://localhost:8080")
                     .body(bodyBytes)
                     .execute()) {
-                result = httpResponse.bodyBytes();
+                byte[] result = httpResponse.bodyBytes();
+                RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
+                return rpcResponse.getData();
             }
-            RpcResponse rpcResponse = serializer.deserialize(result, RpcResponse.class);
-            return rpcResponse.getData();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception:", e);
         }
         return null;
     }

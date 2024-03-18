@@ -27,6 +27,7 @@ public class ServiceProxy implements InvocationHandler {
         try {
             byte[] bodyBytes = serializer.serialize(rpcRequest);
             byte[] result;
+            // 这里硬编码, 写死了, 后续可以优化
             try(HttpResponse httpResponse = HttpRequest.post("http://localhost:8080")
                     .body(bodyBytes)
                     .execute()) {
